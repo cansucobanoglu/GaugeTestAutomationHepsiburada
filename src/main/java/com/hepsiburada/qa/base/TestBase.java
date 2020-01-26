@@ -1,5 +1,6 @@
 package com.hepsiburada.qa.base;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -17,11 +18,13 @@ public class TestBase {
     public static WebDriver driver;
     public static Properties prop;
 
+   public static  String userdir = System.getProperty("user.dir");
+
     public TestBase()  {
         try {
             prop = new Properties();
 
-            FileInputStream ip = new FileInputStream("C:\\Users\\sumeyra\\cansu\\HepsiburadaTestAutomation\\src\\main\\java\\com\\hepsiburada\\qa\\config\\config.properties");
+            FileInputStream ip = new FileInputStream(userdir +  "\\src\\main\\java\\com\\hepsiburada\\qa\\config\\config.properties");
 
             prop.load(ip);
         } catch (FileNotFoundException e) {
@@ -36,17 +39,20 @@ public class TestBase {
 
         String browserName = prop.getProperty("browser");
 
+
         if (browserName.equals("chrome")) {
 
-            System.setProperty("webdriver.chrome.driver", "C:\\Users\\sumeyra\\cansu\\selenium libs\\chromedriver.exe");
+            System.setProperty("webdriver.chrome.driver", userdir + File.separator + "setup/driver/chromedriver.exe");
+
             driver = new ChromeDriver();
+
         }
         else if (browserName.equals("firefox")) {
 
-            System.setProperty("webdriver.gecko.driver", "C:\\Users\\sumeyra\\cansu\\selenium libs\\geckodriver.exe");
+            System.setProperty("webdriver.chrome.driver", userdir + File.separator + "setup/driver/geckodriver.exe");
+
             driver = new FirefoxDriver();
         }
-
         driver.manage().window().maximize();
         driver.manage().deleteAllCookies();
         driver.manage().timeouts().pageLoadTimeout(TestUtil.PAGE_LOAD_TIMEOUT, TimeUnit.SECONDS);
